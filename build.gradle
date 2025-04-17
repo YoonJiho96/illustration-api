@@ -24,17 +24,39 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	// Spring Boot core
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// DB & Lombok
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// Devtools
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// QueryDSL
+	implementation 'com.querydsl:querydsl-jpa'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jpa'
+	annotationProcessor 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+
+	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+sourceSets {
+	main {
+		java {
+			// ✅ Q 클래스 인식되도록 Generated Source 경로 추가
+			srcDirs += file("build/generated/sources/annotationProcessor/java/main")
+		}
+	}
 }
 
 tasks.named('test') {
